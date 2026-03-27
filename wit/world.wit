@@ -1,0 +1,10 @@
+package example:example;
+
+
+interface foundry {
+    doit: func(target-triple: string) -> result<string, string>;
+}
+
+world main {
+    export foundry;
+}

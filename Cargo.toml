@@ -1,0 +1,13 @@
+[package]
+name = "foundry"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasmtime = { version = "40.0.4", default-features = false, features = ["winch", "cranelift", "all-arch", "wat"] }
+# wasmtime = { version = "40.0.4", features = ["winch", "cranelift", "all-arch", "wat"] }
+
+wit-bindgen = "0.54.0"
