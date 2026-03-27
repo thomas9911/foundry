@@ -15,5 +15,4 @@ You probably have to switch the target triple to your own (because i used stinky
 rustup target list --installed
 ```
 
-then pick the not wasm one
-
+then pick the not wasm one and put it as the argument of the wasm component invoke that is in the Justfile doit command
