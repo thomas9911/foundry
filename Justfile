@@ -2,7 +2,8 @@ build:
     cargo build --release --target wasm32-wasip2
 
 doit:
-    wasmtime run --dir ./runner::. --invoke 'doit("x86_64-pc-windows")' ./target/wasm32-wasip2/release/foundry.wasm
+    just --justfile ./component/Justfile build
+    wasmtime run --dir .::. --invoke 'doit("x86_64-pc-windows")' ./target/wasm32-wasip2/release/foundry.wasm
 
 runit:
-    cd runner && cargo run --release
+    wasmtime run --allow-precompiled --invoke 'add(9,12)' add.cwasm

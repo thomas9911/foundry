@@ -36,16 +36,20 @@ impl Guest for Foundry {
         //
         // Note that passing the Wasm text format, like we are doing here, is only
         // supported when the `wat` cargo feature is enabled.
-        let precompiled = engine.precompile_module(
-            r#"
-            (module
-              (func (export "add") (param i32 i32) (result i32)
-                (i32.add (local.get 0) (local.get 1))
-              )
-            )
-        "#
-            .as_bytes(),
-        ).map_err(|e| e.to_string())?;
+        // let precompiled = engine.precompile_module(
+        //     r#"
+        //     (module
+        //       (func (export "add") (param i32 i32) (result i32)
+        //         (i32.add (local.get 0) (local.get 1))
+        //       )
+        //     )
+        // "#
+        //     .as_bytes(),
+        // ).map_err(|e| e.to_string())?;
+
+        let component_bytes = std::fs::read("./component/component.wasm").map_err(|e| e.to_string())?;
+
+        let precompiled = engine.precompile_component(&component_bytes).map_err(|e| e.to_string())?;
 
         std::fs::write("add.cwasm", &precompiled).map_err(|e| e.to_string())?;
 
