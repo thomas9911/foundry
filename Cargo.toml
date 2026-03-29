@@ -8,6 +8,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasmtime = { version = "40.0.4", default-features = false, features = ["winch", "cranelift", "all-arch", "component-model"] }
-# wasmtime = { version = "40.0.4", features = ["winch", "cranelift", "all-arch", "wat"] }
 
 wit-bindgen = "0.54.0"

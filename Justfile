@@ -10,3 +10,9 @@ doit:
 
 runit:
     wasmtime run --allow-precompiled --invoke 'add(9,12)' add.cwasm
+
+all: build doit runit
+
+clean:
+    rm component/component.wasm
+    rm add.cwasm

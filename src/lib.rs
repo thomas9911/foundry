@@ -14,11 +14,9 @@ impl Guest for Foundry {
         // config.strategy(Strategy::Winch);
         config.strategy(Strategy::Cranelift);
         if let Err(error) = config.target(&target_triple) {
-        // if let Err(error) = config.target("x86_64-pc-windows") {
-        // if let Err(error) = config.target("x86_64") {
             eprintln!(
-                "this Wasmtime was not built with the x86_64 Cranelift backend \
-             enabled: {error:?}",
+                "this Wasmtime was not built with the {target_triple} Cranelift backend \
+             enabled, you need the all-arch feature on: {error:?}",
             );
             return Err(String::from("error"));
         }
@@ -33,27 +31,15 @@ impl Guest for Foundry {
         };
 
         // Pre-compile a Wasm program.
-        //
-        // Note that passing the Wasm text format, like we are doing here, is only
-        // supported when the `wat` cargo feature is enabled.
-        // let precompiled = engine.precompile_module(
-        //     r#"
-        //     (module
-        //       (func (export "add") (param i32 i32) (result i32)
-        //         (i32.add (local.get 0) (local.get 1))
-        //       )
-        //     )
-        // "#
-        //     .as_bytes(),
-        // ).map_err(|e| e.to_string())?;
+        let input = "./component/component.wasm";
+        let output = "add.cwasm";
 
-        let component_bytes = std::fs::read("./component/component.wasm").map_err(|e| e.to_string())?;
-
+        let component_bytes = std::fs::read(input).map_err(|e| e.to_string())?;
         let precompiled = engine.precompile_component(&component_bytes).map_err(|e| e.to_string())?;
 
-        std::fs::write("add.cwasm", &precompiled).map_err(|e| e.to_string())?;
+        std::fs::write(output, &precompiled).map_err(|e| e.to_string())?;
 
-        Ok(String::from("hallo"))
+        Ok(format!("compiled {input} to {output}"))
     }
 }
 
