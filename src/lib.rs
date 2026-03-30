@@ -8,7 +8,7 @@ generate!({ generate_all });
 struct Foundry;
 
 impl Guest for Foundry {
-    fn doit(target_triple: String) -> Result<String, String> {
+    fn doit(target_triple: String, input_path: String, output_path: String) -> Result<String, String> {
 
         let mut config = Config::new();
         // config.strategy(Strategy::Winch);
@@ -31,15 +31,12 @@ impl Guest for Foundry {
         };
 
         // Pre-compile a Wasm program.
-        let input = "./component/component.wasm";
-        let output = "add.cwasm";
-
-        let component_bytes = std::fs::read(input).map_err(|e| e.to_string())?;
+        let component_bytes = std::fs::read(&input_path).map_err(|e| e.to_string())?;
         let precompiled = engine.precompile_component(&component_bytes).map_err(|e| e.to_string())?;
 
-        std::fs::write(output, &precompiled).map_err(|e| e.to_string())?;
+        std::fs::write(&output_path, &precompiled).map_err(|e| e.to_string())?;
 
-        Ok(format!("compiled {input} to {output}"))
+        Ok(format!("compiled {input_path} to {output_path}"))
     }
 }
 

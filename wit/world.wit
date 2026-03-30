@@ -2,7 +2,7 @@ package example:example;
 
 
 interface foundry {
-    doit: func(target-triple: string) -> result<string, string>;
+    doit: func(target-triple: string, input-path: string, output-path: string) -> result<string, string>;
 }
 
 world main {
